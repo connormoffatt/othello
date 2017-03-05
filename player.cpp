@@ -15,6 +15,7 @@ Player::Player(Side side) {
      * 30 seconds.
      */
 
+     // Initialization of board in player
      Board board;
 }
 
