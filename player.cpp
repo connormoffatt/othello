@@ -70,6 +70,97 @@ Move *Player::getHeuristic() {
     return valid[max_index];
 }
 
+Move *Player::getMinimax(){
+
+    // create two sets of vectors to represent valid moves for us and our
+    // opponents
+    std::vector<Move *> valid = board.getMoves(color);
+    std::vector<Move *> validOpp;
+
+    // create a vector that will contain the worst score at a depth of 2 for
+    // us for each of our possible moves
+    std::vector<int> small_score;
+
+
+    // counters used to determine the min values at a depth of 2
+    int worst_all, worst_curr;
+
+    // counters when finding the max of all of the min values in small score
+    int best_all,  best_return;
+
+    // for loop that will itereate through all of our valid moves
+    for(int i = 0; i < valid.size(); i++){
+        // create temporary board and perform the current move in the for loop
+        temp_board1 = board.copy();
+        temp_board1.doMove(valid[i], color);
+
+        // find the valid moves for the opponent for the move we just made
+        validOpp = temp_board1.getMoves(oppColor);
+
+        // check to see if our opponent has any valid moves. If our opponent
+        // does not have any valid moves then we want to check to current 
+        // board score
+        if(validOpp.size() ==0){
+            // calculate the current board score assumming we are black
+            worst_all = temp_board1.countBlack() - temp_board1.countWhite();
+            // If we are actually white multiply the score by -1
+            if(color == WHITE)
+            {
+                worst_all *= -1;
+            }
+        }
+        // If our opponent has valid moves, then we will iterate through them
+        else{
+            // initialize the value to be something greater than any possible
+            // value. We will always find a board state smaller than this.
+            worst_all = 100;
+
+            // iterate through all of the opponents valid moves
+            for(int j = 0; j < validOpp.size(); j++){
+                // create temporary board at the depth of 2
+                temp_board2 = temp_board1.copy();
+                temp_board2.doMove(validOpp[j], oppColor);
+
+                // find the current score of the current board
+                worst_curr = temp_board2.countBlack() - \
+                    temp_board2.countWhite();
+                // if we are not black then flip the score
+                if(color == WHITE)
+                {
+                    worst_curr *= -1;
+                }
+                // continually keep track of the worst total score for us in 
+                // the set of our opponents move
+                if(worst_curr < worst_all){
+                    worst_curr = worst_all;
+                }
+            }
+        }
+        // after going through all of the opponenets move. Save the worst
+        // board state that we can obtain for each of our moves and save into
+        // a vector
+        small_score.push_back(worst_all);
+
+    }
+
+    // set the initial index and high score to the first item in the small
+    // score vector
+    best_all = small_score[0];
+    best_return = 0;
+    // iterate through the rest of the small_score vector 
+    for(int k = 1; k < valid.size(); k++){
+        // check to see if our move has a higher minimum that previous
+        if(small_score[k] > best_all)
+        {
+            // reset value and index to be returned
+            best_all = small_score[k];
+            best_return = k;
+        }
+    }
+    // return the minimax move
+    return valid[best_return];
+}
+
 /*
  * Compute the next move given the opponent's last move. Your AI is
  * expected to keep track of the board on its own. If this is the first move,
@@ -91,8 +182,8 @@ Move *Player::doMove(Move *opponentsMove, int msLeft) {
     }
     //Move *newMove = getAIWork();
     //Move *newMove = getRandom();
+    //Move *newMove = getHeuristic();
     Move *newMove = getHeuristic();
-
     if(newMove != nullptr) {
 
         board.doMove(newMove, color);
