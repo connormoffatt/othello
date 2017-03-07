@@ -15,16 +15,14 @@ Player::Player(Side side) {
      * precalculating things, etc.) However, remember that you will only have
      * 30 seconds.
      */
-     Side color = side;
-     Side oppColor;
+     color = side;
      if(side == BLACK) {
         oppColor = WHITE;
      }
      else {
         oppColor = BLACK;
      }
-     // Initialization of board in player
-     Board board;
+
 }
 
 /*
@@ -33,6 +31,19 @@ Player::Player(Side side) {
 Player::~Player() {
 }
 
+
+Move *Player::getAIWork() {
+    for(int i = 0; i < BoardSize; i++) {
+        for(int j = 0; j < BoardSize; j++) {
+            Move *simpMove = new Move(i, j);
+            if(board.checkMove(simpMove, color)) {
+                return simpMove;
+            }
+
+        }
+    }
+    return nullptr;
+}
 /*
  * Compute the next move given the opponent's last move. Your AI is
  * expected to keep track of the board on its own. If this is the first move,
@@ -47,21 +58,15 @@ Player::~Player() {
  * return nullptr.
  */
 Move *Player::doMove(Move *opponentsMove, int msLeft) {
-    Move simpMove;
-    board.doMove(&opponentsMove, oppColor);
+    board.doMove(opponentsMove, oppColor);
 
     if(!board.hasMoves(color)) {
         return nullptr;
     }
-    for(int i = 0; i < BoardSize; i++) {
-        for(int j = 0; j < BoardSize; j++) {
-            simpMove = Move(i, j);
-            if(board.checkMove(simpMove, color)) {
-                board.doMove(simpMove, color);
-                return simpMove;
-            }
-
-        }
+    Move *newMove = getAIWork();
+    if(newMove != nullptr) {
+        board.doMove(newMove, color);
     }
-    return nullptr;
+    
+    return newMove;
 }
