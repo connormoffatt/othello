@@ -58,7 +58,8 @@ Move *Player::getHeuristic() {
     int max_index = 0;
     int best_move = heur[valid[0]->getY()][valid[0]->getX()];
     int current_move;
-
+    std::cerr<<"best move: "<< best_move <<std::endl;
+    std::cerr<<"max index: "<< max_index<<std::endl;
     for(int i = 1; i < valid.size(); i++){
         current_move = heur[valid[i]->getY()][valid[i]->getX()];
         if(current_move > best_move){
