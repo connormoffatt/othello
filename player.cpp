@@ -89,7 +89,8 @@ Move *Player::doMove(Move *opponentsMove, int msLeft) {
         return nullptr;
     }
     //Move *newMove = getAIWork();
-    Move *newMove = getRandom();
+    //Move *newMove = getRandom();
+    Move *newMove = getHeuristic();
 
     if(newMove != nullptr) {
 

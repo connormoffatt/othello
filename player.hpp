@@ -23,7 +23,7 @@ public:
     Move *getRandom();
     Move *getHeuristic();
     Move *doMove(Move *opponentsMove, int msLeft);
-    void Player::initHeur();
+    void initHeur();
 
     // Flag to tell if the player is running within the test_minimax context
     bool testingMinimax;
