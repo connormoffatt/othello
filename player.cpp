@@ -183,7 +183,7 @@ Move *Player::doMove(Move *opponentsMove, int msLeft) {
     //Move *newMove = getAIWork();
     //Move *newMove = getRandom();
     //Move *newMove = getHeuristic();
-    Move *newMove = getHeuristic();
+    Move *newMove = getMinimax();
     if(newMove != nullptr) {
 
         board.doMove(newMove, color);
