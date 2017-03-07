@@ -22,6 +22,7 @@ public:
     Move *getAIWork();
     Move *getRandom();
     Move *doMove(Move *opponentsMove, int msLeft);
+    void Player::initHeur();
 
     // Flag to tell if the player is running within the test_minimax context
     bool testingMinimax;
