@@ -2,6 +2,7 @@
 #define __BOARD_H__
 
 #include <bitset>
+#include <vector>
 #include "common.hpp"
 using namespace std;
 
@@ -28,6 +29,7 @@ public:
     int count(Side side);
     int countBlack();
     int countWhite();
+    std::vector<Move *> getMoves(Side side);
 
     void setBoard(char data[]);
 };

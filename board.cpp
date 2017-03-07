@@ -183,16 +183,16 @@ void Board::setBoard(char data[]) {
  * gets all of the valid moves into a vector 
  */
 
-std::vector<*Move> Board::getMoves(Side side){
-    std::vector<*Move> valid;
+std::vector<Move *> Board::getMoves(Side side){
+    std::vector<Move *> valid;
 
     // iterate through all of the possibilities
     for(int i = 0; i < 8; i++){
         for(int j = 0; j < 8; j++){
-            Move move(i,j);
+            Move *move = new Move(i, j);
             // if valid, add to the list of moves
-            if(checkMove(&move, side)){
-                valid.push_back(&move);
+            if(checkMove(move, side)){
+                valid.push_back(move);
             }
         }
     }

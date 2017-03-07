@@ -44,6 +44,12 @@ Move *Player::getAIWork() {
     }
     return nullptr;
 }
+
+Move *Player::getRandom() {
+    srand (time(NULL));
+    std::vector<Move *> valid = board.getMoves(color);
+    return valid[rand() % valid.size()];
+}
 /*
  * Compute the next move given the opponent's last move. Your AI is
  * expected to keep track of the board on its own. If this is the first move,
@@ -63,9 +69,13 @@ Move *Player::doMove(Move *opponentsMove, int msLeft) {
     if(!board.hasMoves(color)) {
         return nullptr;
     }
-    Move *newMove = getAIWork();
+    //Move *newMove = getAIWork();
+    Move *newMove = getRandom();
+
     if(newMove != nullptr) {
+
         board.doMove(newMove, color);
+        std::cerr<<"yes"<<std::endl;
     }
     
     return newMove;

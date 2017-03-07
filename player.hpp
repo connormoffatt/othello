@@ -2,6 +2,7 @@
 #define __PLAYER_H__
 
 #include <iostream>
+#include <time.h>
 #include "common.hpp"
 #include "board.hpp"
 using namespace std;
@@ -18,6 +19,7 @@ public:
     ~Player();
 
     Move *getAIWork();
+    Move *getRandom();
     Move *doMove(Move *opponentsMove, int msLeft);
 
     // Flag to tell if the player is running within the test_minimax context
