@@ -8,7 +8,7 @@
  */
 Player::Player(Side side) {
     // Will be set to true in test_minimax.cpp.
-    testingMinimax = true;
+    testingMinimax = false;
 
     /*
      * TODO: Do any initialization you need to do here (setting up the board,
@@ -23,7 +23,6 @@ Player::Player(Side side) {
         oppColor = BLACK;
      }
      initHeur();
-
 }
 
 /*
@@ -58,8 +57,6 @@ Move *Player::getHeuristic() {
     int max_index = 0;
     int best_move = heur[valid[0]->getY()][valid[0]->getX()];
     int current_move;
-    //std::cerr<<"best move: "<< best_move <<std::endl;
-    //std::cerr<<"max index: "<< max_index<<std::endl;
     for(int i = 1; i < valid.size(); i++){
         current_move = heur[valid[i]->getY()][valid[i]->getX()];
         if(current_move > best_move){
@@ -103,9 +100,6 @@ Move *Player::getMinimax(){
     // counters when finding the max of all of the min values in small score
     int best_all,  best_return;
 
-    std::cerr << "Black: " << board.countBlack() << std::endl;
-    std::cerr << "White: " << board.countWhite() << std::endl;
-
 
     // for loop that will itereate through all of our valid moves
     for(int i = 0; i < valid.size(); i++){
@@ -139,8 +133,6 @@ Move *Player::getMinimax(){
                 // find the current score of the current board
                 worst_curr = temp_board2->count(color) - \
                     temp_board2->count(oppColor);
-                //std::cerr << "Black: " << temp_board2->countBlack() << std::endl;
-                //std::cerr << "White: " << temp_board2->countWhite() << std::endl;
 
                 // continually keep track of the worst total score for us in 
                 // the set of our opponents move
@@ -161,11 +153,9 @@ Move *Player::getMinimax(){
     best_all = small_score[0];
     best_return = 0;
 
-    std::cerr << best_all << std::endl;
     // iterate through the rest of the small_score vector 
     for(int k = 1; k < valid.size(); k++){
         // check to see if our move has a higher minimum that previous
-        std::cerr << small_score[k] << std::endl;
         if(small_score[k] > best_all)
         {
             // reset value and index to be returned
@@ -204,7 +194,6 @@ Move *Player::doMove(Move *opponentsMove, int msLeft) {
     if(newMove != nullptr) {
 
         board.doMove(newMove, color);
-        //std::cerr<<"yes"<<std::endl;
     }
     
     return newMove;
