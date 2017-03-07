@@ -14,7 +14,7 @@ Player::Player(Side side) {
      * precalculating things, etc.) However, remember that you will only have
      * 30 seconds.
      */
-
+     Side color = side;
      // Initialization of board in player
      Board board;
 }
