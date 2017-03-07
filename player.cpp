@@ -1,5 +1,6 @@
 #include "player.hpp"
 
+#define BoardSize 8
 /*
  * Constructor for the player; initialize everything here. The side your AI is
  * on (BLACK or WHITE) is passed in as "side". The constructor must finish
@@ -15,6 +16,13 @@ Player::Player(Side side) {
      * 30 seconds.
      */
      Side color = side;
+     Side oppColor;
+     if(side == BLACK) {
+        oppColor = WHITE;
+     }
+     else {
+        oppColor = BLACK;
+     }
      // Initialization of board in player
      Board board;
 }
@@ -39,9 +47,21 @@ Player::~Player() {
  * return nullptr.
  */
 Move *Player::doMove(Move *opponentsMove, int msLeft) {
-    /*
-     * TODO: Implement how moves your AI should play here. You should first
-     * process the opponent's opponents move before calculating your own move
-     */
+    Move simpMove;
+    board.doMove(&opponentsMove, oppColor);
+
+    if(!board.hasMoves(color)) {
+        return nullptr;
+    }
+    for(int i = 0; i < BoardSize; i++) {
+        for(int j = 0; j < BoardSize; j++) {
+            simpMove = Move(i, j);
+            if(board.checkMove(simpMove, color)) {
+                board.doMove(simpMove, color);
+                return simpMove;
+            }
+
+        }
+    }
     return nullptr;
 }
