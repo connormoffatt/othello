@@ -21,6 +21,7 @@ public:
 
     Move *getAIWork();
     Move *getRandom();
+    Move *getHeuristic();
     Move *doMove(Move *opponentsMove, int msLeft);
     void Player::initHeur();
 
