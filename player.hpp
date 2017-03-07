@@ -11,8 +11,8 @@ class Player {
 
 private:
     Board board;
-    Board temp_board1;
-    Board temp_board2;
+    Board * temp_board1;
+    Board * temp_board2;
     Side color;
     Side oppColor;
     int heur[8][8];

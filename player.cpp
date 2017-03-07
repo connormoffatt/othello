@@ -8,7 +8,7 @@
  */
 Player::Player(Side side) {
     // Will be set to true in test_minimax.cpp.
-    testingMinimax = false;
+    testingMinimax = true;
 
     /*
      * TODO: Do any initialization you need to do here (setting up the board,
@@ -72,6 +72,21 @@ Move *Player::getHeuristic() {
 
 Move *Player::getMinimax(){
 
+    char boardData[64] = {
+        ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',
+        ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',
+        ' ', 'b', ' ', ' ', ' ', ' ', ' ', ' ',
+        'b', 'w', 'b', 'b', 'b', 'b', ' ', ' ',
+        ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',
+        ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',
+        ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',
+        ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '
+    };
+
+    if(testingMinimax == true)
+    {
+        board.setBoard(boardData);
+    }
     // create two sets of vectors to represent valid moves for us and our
     // opponents
     std::vector<Move *> valid = board.getMoves(color);
@@ -88,26 +103,26 @@ Move *Player::getMinimax(){
     // counters when finding the max of all of the min values in small score
     int best_all,  best_return;
 
+    std::cerr << "Black: " << board.countBlack() << std::endl;
+    std::cerr << "White: " << board.countWhite() << std::endl;
+
+
     // for loop that will itereate through all of our valid moves
     for(int i = 0; i < valid.size(); i++){
         // create temporary board and perform the current move in the for loop
         temp_board1 = board.copy();
-        temp_board1.doMove(valid[i], color);
+        temp_board1->doMove(valid[i], color);
 
         // find the valid moves for the opponent for the move we just made
-        validOpp = temp_board1.getMoves(oppColor);
+        validOpp = temp_board1->getMoves(oppColor);
 
         // check to see if our opponent has any valid moves. If our opponent
         // does not have any valid moves then we want to check to current 
         // board score
-        if(validOpp.size() ==0){
-            // calculate the current board score assumming we are black
-            worst_all = temp_board1.countBlack() - temp_board1.countWhite();
-            // If we are actually white multiply the score by -1
-            if(color == WHITE)
-            {
-                worst_all *= -1;
-            }
+        if(validOpp.size() == 0){
+            // calculate the current board score 
+            worst_all = temp_board1->count(color) - \
+                temp_board1->count(oppColor);
         }
         // If our opponent has valid moves, then we will iterate through them
         else{
@@ -118,21 +133,19 @@ Move *Player::getMinimax(){
             // iterate through all of the opponents valid moves
             for(int j = 0; j < validOpp.size(); j++){
                 // create temporary board at the depth of 2
-                temp_board2 = temp_board1.copy();
-                temp_board2.doMove(validOpp[j], oppColor);
+                temp_board2 = temp_board1->copy();
+                temp_board2->doMove(validOpp[j], oppColor);
 
                 // find the current score of the current board
-                worst_curr = temp_board2.countBlack() - \
-                    temp_board2.countWhite();
-                // if we are not black then flip the score
-                if(color == WHITE)
-                {
-                    worst_curr *= -1;
-                }
+                worst_curr = temp_board2->count(color) - \
+                    temp_board2->count(oppColor);
+                //std::cerr << "Black: " << temp_board2->countBlack() << std::endl;
+                //std::cerr << "White: " << temp_board2->countWhite() << std::endl;
+
                 // continually keep track of the worst total score for us in 
                 // the set of our opponents move
                 if(worst_curr < worst_all){
-                    worst_curr = worst_all;
+                    worst_all = worst_curr;
                 }
             }
         }
@@ -147,14 +160,18 @@ Move *Player::getMinimax(){
     // score vector
     best_all = small_score[0];
     best_return = 0;
+
+    std::cerr << best_all << std::endl;
     // iterate through the rest of the small_score vector 
     for(int k = 1; k < valid.size(); k++){
         // check to see if our move has a higher minimum that previous
+        std::cerr << small_score[k] << std::endl;
         if(small_score[k] > best_all)
         {
             // reset value and index to be returned
             best_all = small_score[k];
             best_return = k;
+
         }
     }
     // return the minimax move
