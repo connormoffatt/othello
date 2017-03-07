@@ -17,6 +17,7 @@ Player::Player(Side side) {
      else {
         oppColor = BLACK;
      }
+     // initialze the heuristic table
      initHeur();
 }
 
