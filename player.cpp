@@ -10,11 +10,6 @@ Player::Player(Side side) {
     // Will be set to true in test_minimax.cpp.
     testingMinimax = false;
 
-    /*
-     * TODO: Do any initialization you need to do here (setting up the board,
-     * precalculating things, etc.) However, remember that you will only have
-     * 30 seconds.
-     */
      color = side;
      if(side == BLACK) {
         oppColor = WHITE;
@@ -32,11 +27,18 @@ Player::~Player() {
 }
 
 
+/*
+* @brief This function returns the a move that it first encounters
+* as valid.
+*/
 Move *Player::getAIWork() {
+    // Loop through all squares on board
     for(int i = 0; i < BoardSize; i++) {
         for(int j = 0; j < BoardSize; j++) {
             Move *simpMove = new Move(i, j);
+            // Check if move is valid
             if(board.checkMove(simpMove, color)) {
+                // If so return the move
                 return simpMove;
             }
 
@@ -45,12 +47,22 @@ Move *Player::getAIWork() {
     return nullptr;
 }
 
+/*
+* @brief This function choose a random move based on a vector of all
+* valid moves.
+*/
 Move *Player::getRandom() {
     srand (time(NULL));
+    // Get all possible valid moves
     std::vector<Move *> valid = board.getMoves(color);
+    // Pick random one and return it
     return valid[rand() % valid.size()];
 }
 
+/*
+* @brief This function determins the players move based on heuristics.
+* It figures out the best move based on the largest value.
+*/
 Move *Player::getHeuristic() {
     std::vector<Move *> valid = board.getMoves(color);
 
@@ -187,6 +199,9 @@ Move *Player::doMove(Move *opponentsMove, int msLeft) {
     if(!board.hasMoves(color)) {
         return nullptr;
     }
+
+    // Choose line of code below depening on which AI that needs to be run
+
     //Move *newMove = getAIWork();
     //Move *newMove = getRandom();
     //Move *newMove = getHeuristic();
