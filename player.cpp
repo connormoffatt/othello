@@ -22,6 +22,7 @@ Player::Player(Side side) {
      else {
         oppColor = BLACK;
      }
+     initHeur();
 
 }
 
@@ -79,4 +80,92 @@ Move *Player::doMove(Move *opponentsMove, int msLeft) {
     }
     
     return newMove;
+}
+
+/*
+ * This function will initialize the heuristic table
+ *
+ */
+
+void Player::initHeur(){
+    // first row
+    heur[0][0] = 10;
+    heur[0][1] = 2;
+    heur[0][2] = 5;
+    heur[0][3] = 5;
+    heur[0][4] = 5;
+    heur[0][5] = 5;
+    heur[0][6] = 2;
+    heur[0][7] = 10;
+
+    // second row
+    heur[1][0] = 2;
+    heur[1][1] = -5;
+    heur[1][2] = -3;
+    heur[1][3] = -1;
+    heur[1][4] = -1;
+    heur[1][5] = -3;
+    heur[1][6] = -5;
+    heur[1][7] = 2;
+
+    // third row
+    heur[2][0] = 5;
+    heur[2][1] = -3;
+    heur[2][2] = 3;
+    heur[2][3] = 1;
+    heur[2][4] = 1;
+    heur[2][5] = 3;
+    heur[2][6] = -3;
+    heur[2][7] = 5;
+
+    // fourth row
+    heur[3][0] = 5;
+    heur[3][1] = -1;
+    heur[3][2] = 1;
+    heur[3][3] = 0;
+    heur[3][4] = 0;
+    heur[3][5] = 1;
+    heur[3][6] = -1;
+    heur[3][7] = 5;
+
+    // fifth row
+    heur[4][0] = 5;
+    heur[4][1] = -1;
+    heur[4][2] = 1;
+    heur[4][3] = 0;
+    heur[4][4] = 0;
+    heur[4][5] = 1;
+    heur[4][6] = -1;
+    heur[4][7] = 5;
+
+    // sixth row
+    heur[5][0] = 5;
+    heur[5][1] = -3;
+    heur[5][2] = 3;
+    heur[5][3] = 1;
+    heur[5][4] = 1;
+    heur[5][5] = 3;
+    heur[5][6] = -3;
+    heur[5][7] = 5;
+
+    // seventh row
+    heur[6][0] = 2;
+    heur[6][1] = -5;
+    heur[6][2] = -3;
+    heur[6][3] = -1;
+    heur[6][4] = -1;
+    heur[6][5] = -3;
+    heur[6][6] = -5;
+    heur[6][7] = 2;
+
+    // eigth row
+    heur[7][0] = 10;
+    heur[7][1] = 2;
+    heur[7][2] = 5;
+    heur[7][3] = 5;
+    heur[7][4] = 5;
+    heur[7][5] = 5;
+    heur[7][6] = 2;
+    heur[7][7] = 10;
+
 }

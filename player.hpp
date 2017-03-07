@@ -13,6 +13,7 @@ private:
     Board board;
     Side color;
     Side oppColor;
+    int heur[8][8];
 
 public:
     Player(Side side);
