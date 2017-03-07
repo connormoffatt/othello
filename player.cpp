@@ -53,7 +53,20 @@ Move *Player::getRandom() {
 }
 
 Move *Player::getHeuristic() {
-    initHeur();
+    std::vector<Move *> valid = board.getMoves(color);
+
+    int max_index = 0;
+    int best_move = heur[valid[0]->getY()][valid[0]->getX()];
+    int current_move;
+
+    for(int i = 1; i < valid.size(); i++){
+        current_move = heur[valid[i]->getY()][valid[i]->getX()];
+        if(current_move > best_move){
+            best_move = current_move;
+            max_index = i;
+        }
+    }
+    return valid[max_index];
 }
 
 /*
