@@ -27,6 +27,9 @@ public:
     Move *doMove(Move *opponentsMove, int msLeft);
     Move *getMinimax();
     void initHeur();
+    Move *getMinimaxHeuristic();
+    Move *getMinimaxHeuristic2();
+    int getHeuristic2(Board * b);
 
     // Flag to tell if the player is running within the test_minimax context
     bool testingMinimax;
